@@ -1,33 +1,76 @@
 ﻿@page "/alphabet"
+@page "/alphabet/{Shuffle:bool}"
+
 @inject HttpClient Http
 
 <PageTitle>Talon Alphabet</PageTitle>
 
 <h1>Talon Alphabet</h1>
-
-<p>Create and edit your own Talon Alphabet with pictures to remind you.</p>
+@if (!Shuffle) {
+	<p>Create and edit your own Talon Alphabet with pictures to remind you.</p>
+	<p>Note when clicking on save you save all words in the list to browser local storage on this device.</p>
+}
 
 @if (alphabetItems == null) {
 	<p><em>Loading...</em></p>
 } else {
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Word</th>
-				<th>Picture</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var word in alphabetItems) {
+	@if (Shuffle) {
+		<table class="table table-bordered table-striped" id="table1">
+			<tbody>
+				@foreach (var word in alphabetItems) {
+					<tr>
+						<td>
+							<span style='font-size:50px'>@word.AlphabetWord</span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							@if (!string.IsNullOrWhiteSpace(word.PictureUrl)) {
+								<img src="@word.PictureUrl" alt="@word.AlphabetWord" width="300" />
+							}
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	} else {
+		<table class="table table-bordered table-striped" id="table1">
+			<thead>
 				<tr>
-					<td>@word.AlphabetWord</td>
+					<th>Word</th>
+					<th>Picture</th>
+					<th>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var word in alphabetItems) {
+					<tr>
+						<td>
+							<input class='form-control' @bind="@word.AlphabetWord" id="@word.AlphabetWord" />
+						</td>
+						<td>
+							@if (!string.IsNullOrWhiteSpace(word.PictureUrl)) {
+								<img src="@word.PictureUrl" alt="@word.AlphabetWord" width="400" />
+							}
+							<input class='form-control' @bind="@word.PictureUrl" id="@word.PictureUrl" />
+						</td>
+						<td>
+							<button class="btn btn-outline-danger" @onclick="() => DeleteTalonAlphabet(word)">Delete</button>
+						</td>
+					</tr>
+				}
+			</tbody>
+			<tfoot>
+				<tr>
 					<td>
-						<img src="@word.PictureUrl" alt="@word.AlphabetWord" width="400" />
+						<button class="btn btn-outline-success" @onclick="SaveAlphabetAsync">Save All</button>
+						<button class="btn btn-outline-primary" @onclick="AddAlphabetAsync">Add</button>
 					</td>
 				</tr>
-			}
-		</tbody>
-	</table>
+			</tfoot>
+		</table>
+	}
 }
 @if (!string.IsNullOrWhiteSpace(Message)) {
 
