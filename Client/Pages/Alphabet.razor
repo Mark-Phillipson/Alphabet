@@ -1,0 +1,38 @@
+﻿@page "/alphabet"
+@inject HttpClient Http
+
+<PageTitle>Talon Alphabet</PageTitle>
+
+<h1>Talon Alphabet</h1>
+
+<p>Create and edit your own Talon Alphabet with pictures to remind you.</p>
+
+@if (alphabetItems == null) {
+	<p><em>Loading...</em></p>
+} else {
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Word</th>
+				<th>Picture</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var word in alphabetItems) {
+				<tr>
+					<td>@word.AlphabetWord</td>
+					<td>
+						<img src="@word.PictureUrl" alt="@word.AlphabetWord" width="400" />
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+@if (!string.IsNullOrWhiteSpace(Message)) {
+
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>Warning!</strong> @Message
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
