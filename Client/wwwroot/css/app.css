@@ -101,3 +101,14 @@ a, .btn-link {
 code {
     color: #c02d76;
 }
+
+.layout-as-cards {
+   margin: 2px;
+   display: flex;
+   flex-direction: column;
+   flex-flow: wrap;
+   text-decoration: none;
+   justify-content: center;
+   color: white;
+   gap: 3px
+}

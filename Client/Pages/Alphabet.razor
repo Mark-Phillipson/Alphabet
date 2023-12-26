@@ -5,34 +5,41 @@
 
 <PageTitle>Talon Alphabet</PageTitle>
 
-<h1>Talon Alphabet</h1>
+@* <h1 class="d-none d-lg-block text-center ml-3">
+	Talon Alphabet
+</h1>
+ *@
 @if (!Shuffle) {
 	<p>Create and edit your own Talon Alphabet with pictures to remind you.</p>
-	<p>Note when clicking on save you save all words in the list to browser local storage on this device.</p>
+	<p>Note when clicking on save you save all words in the list to browser local storage on the current device.</p>
 }
 
 @if (alphabetItems == null) {
 	<p><em>Loading...</em></p>
 } else {
 	@if (Shuffle) {
-		<table class="table table-bordered table-striped" id="table1">
-			<tbody>
-				@foreach (var word in alphabetItems) {
-					<tr>
-						<td>
-							<span style='font-size:50px'>@word.AlphabetWord</span>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							@if (!string.IsNullOrWhiteSpace(word.PictureUrl)) {
-								<img src="@word.PictureUrl" alt="@word.AlphabetWord" width="300" />
-							}
-						</td>
-					</tr>
-				}
-			</tbody>
-		</table>
+		<div class='layout-as-cards'>
+			@foreach (var word in alphabetItems) {
+				<div class="card m-1" style="width: 15rem;">
+					<button style='height:100%' class='btn btn-lg btn-outline-dark' @onclick="LoadData">
+						<div class='card-body'>
+							<h1 class="card-title">@word.AlphabetWord</h1>
+						</div>
+						<div class="card-body">
+							<div class="card-text">
+								@if (!string.IsNullOrWhiteSpace(word.PictureUrl)) {
+									@if (!string.IsNullOrWhiteSpace(word.PictureUrl)) {
+										<div style="display: flex; justify-content: center;">
+											<img src='@word.PictureUrl' width="200" />
+										</div>
+									}
+								}
+							</div>
+						</div>
+					</button>
+				</div>
+			}
+		</div>
 	} else {
 		<table class="table table-bordered table-striped" id="table1">
 			<thead>
@@ -40,6 +47,7 @@
 					<th>Word</th>
 					<th>Picture</th>
 					<th>
+						<button accesskey="s" class="btn btn-outline-success" @onclick="SaveAlphabetAsync"><u>S</u>ave All</button>
 					</th>
 				</tr>
 			</thead>
@@ -47,16 +55,20 @@
 				@foreach (var word in alphabetItems) {
 					<tr>
 						<td>
-							<input class='form-control' @bind="@word.AlphabetWord" id="@word.AlphabetWord" />
+							<input class='form-control form-control-lg' @bind="@word.AlphabetWord" id="@word.AlphabetWord" />
 						</td>
 						<td>
 							@if (!string.IsNullOrWhiteSpace(word.PictureUrl)) {
-								<img src="@word.PictureUrl" alt="@word.AlphabetWord" width="400" />
+								<img src="@word.PictureUrl" alt="@word.AlphabetWord" width="200" />
 							}
-							<input class='form-control' @bind="@word.PictureUrl" id="@word.PictureUrl" />
 						</td>
 						<td>
 							<button class="btn btn-outline-danger" @onclick="() => DeleteTalonAlphabet(word)">Delete</button>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<input class='form-control' @bind="@word.PictureUrl" id="@word.PictureUrl" />
 						</td>
 					</tr>
 				}
@@ -64,8 +76,8 @@
 			<tfoot>
 				<tr>
 					<td>
-						<button class="btn btn-outline-success" @onclick="SaveAlphabetAsync">Save All</button>
-						<button class="btn btn-outline-primary" @onclick="AddAlphabetAsync">Add</button>
+						<button accesskey="v" class="btn btn-outline-success" @onclick="SaveAlphabetAsync">Sa<u>v</u>e All</button>
+						<button accesskey="a" class="btn btn-outline-primary" @onclick="AddAlphabet"><u>A</u>dd</button>
 					</td>
 				</tr>
 			</tfoot>

@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace Client.Pages {
 	public partial class Alphabet {
-		private List<TalonAlphabet> alphabetItems;
+		private List<TalonAlphabet>? alphabetItems;
 		[Inject] public required ILocalStorageService LocalStorage { get; set; }
 		[Inject] public required HttpClient HttpClient { get; set; }
 		[Inject] public required IJSRuntime JSRuntime { get; set; }
@@ -33,15 +33,18 @@ namespace Client.Pages {
 			}
 		}
 		private async Task SaveAlphabetAsync() {
+			if (alphabetItems== null) { return; }
 			await LocalStorage.SetItemAsync<List<TalonAlphabet>>("alphabet", alphabetItems);
 			ToastService.ShowSuccess("The Talon Alphabet has been Saved Successfully!");
 		}
-		private async Task AddAlphabetAsync() {
-			TalonAlphabet talonAlphabet = new TalonAlphabet { AlphabetWord = "Air", PictureUrl = "https://somedomain.com/images/act.png" };
-			alphabetItems.Add(talonAlphabet);
-		}
-		private void DeleteTalonAlphabet(TalonAlphabet talonAlphabet) {
-			alphabetItems.Remove(talonAlphabet);
+      private void AddAlphabet() {
+         if (alphabetItems == null) { return; }
+         TalonAlphabet talonAlphabet = new TalonAlphabet { AlphabetWord = "Air", PictureUrl = "https://somedomain.com/images/act.png" };
+         alphabetItems.Add(talonAlphabet);
+      }
+      private void DeleteTalonAlphabet(TalonAlphabet talonAlphabet) {
+         if (alphabetItems == null) { return; }
+         alphabetItems.Remove(talonAlphabet);
 		}
 
 
