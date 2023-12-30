@@ -1,7 +1,7 @@
 ﻿[
    {
-      "alphabetWord": "Act",
-      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/act.jpeg"
+      "alphabetWord": "Air",
+      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/air.jpeg"
    },
    {
       "alphabetWord": "Bat",
@@ -16,20 +16,20 @@
       "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/drum.jpeg"
    },
    {
-      "alphabetWord": "Echo",
-      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/echo.jpeg"
+      "alphabetWord": "Each",
+      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/each.jpeg"
    },
    {
-      "alphabetWord": "Fox",
-      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/fox.jpeg"
+      "alphabetWord": "Fine",
+      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/fine.jpeg"
    },
    {
-      "alphabetWord": "Golf",
-      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/golf.jpeg"
+      "alphabetWord": "Gust",
+      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/gust.jpeg"
    },
    {
-      "alphabetWord": "Hot",
-      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/hot.jpeg"
+      "alphabetWord": "Harp",
+      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/harp.jpeg"
    },
    {
       "alphabetWord": "sIt",
@@ -48,8 +48,9 @@
       "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/look.jpeg"
    },
    {
-      "alphabetWord": "Mike",
-      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/mike.jpg"
+      "alphabetWord": "Made",
+      "pictureUrl": "https://voicelauncherblazor.azurewebsites.net/images/made.jpeg"
+      
    },
    {
       "alphabetWord": "Near",
