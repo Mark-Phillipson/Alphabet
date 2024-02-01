@@ -44,12 +44,19 @@ namespace Client.Pages
 			try
 			{
 				await LoadData();
-				//alphabetItems= await Http.GetFromJsonAsync<TalonAlphabet[]>("/api/TalonAlphabet") ?? new TalonAlphabet[] { };
 			}
 			catch (Exception exception)
 			{
 				Message = exception.Message;
 				Console.WriteLine(exception.Message);
+			}
+		}
+		protected override async Task OnParametersSetAsync()
+		{
+			await LoadData();
+			if (Guess && alphabetItems != null && alphabetItems.Count > 0)
+			{
+				_alphabet = alphabetItems[_index];
 			}
 		}
 		private async Task SaveAlphabetAsync()
