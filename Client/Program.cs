@@ -17,10 +17,10 @@ builder.Services.AddBlazoredToast();
 builder.Services.AddBlazoredLocalStorage();
 var config = builder.Configuration;
 
-// Correct the JSON file path to use the wwwroot folder
+// Correct the JSON file path to use a relative URL for HTTP access
 builder.Services.Configure<JsonRepositoryOptions>(options =>
 {
-    options.JsonFilePath = Path.Combine("wwwroot", "Prompts.json");
+    options.JsonFilePath = "Prompts.json"; // Corrected to relative URL for HTTP access
 });
 
 builder.Services.AddScoped<IPromptDataService, PromptDataService>();
@@ -33,7 +33,8 @@ builder.Services.AddScoped<IPromptRepository>(provider =>
 {
     var options = provider.GetRequiredService<IOptions<JsonRepositoryOptions>>();
     var mapper = provider.GetRequiredService<IMapper>();
-    return new PromptRepository(options, mapper);
+    var httpClient = provider.GetRequiredService<HttpClient>();
+    return new PromptRepository(options, mapper, httpClient);
 });
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -15,23 +16,25 @@ namespace Client.Repositories
     {
         private readonly string _jsonFilePath;
         private readonly IMapper _mapper;
+        private readonly HttpClient _httpClient;
 
-        public PromptRepository(IOptions<JsonRepositoryOptions> options, IMapper mapper)
+        public PromptRepository(IOptions<JsonRepositoryOptions> options, IMapper mapper, HttpClient httpClient)
         {
+            _httpClient = httpClient;
             _jsonFilePath = options.Value.JsonFilePath;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<PromptDTO>> GetAllPromptsAsync(int maxRows = 400)
         {
-            var jsonData = await File.ReadAllTextAsync(_jsonFilePath);
+            var jsonData = await _httpClient.GetStringAsync(_jsonFilePath);
             var prompts = JsonSerializer.Deserialize<List<Prompt>>(jsonData) ?? new List<Prompt>();
             return _mapper.Map<IEnumerable<PromptDTO>>(prompts.Take(maxRows));
         }
 
         public async Task<IEnumerable<PromptDTO>> SearchPromptsAsync(string serverSearchTerm)
         {
-            var jsonData = await File.ReadAllTextAsync(_jsonFilePath);
+            var jsonData = await _httpClient.GetStringAsync(_jsonFilePath);
             var prompts = JsonSerializer.Deserialize<List<Prompt>>(jsonData) ?? new List<Prompt>();
             var filteredPrompts = prompts.Where(p => p.PromptText.Contains(serverSearchTerm, StringComparison.OrdinalIgnoreCase));
             return _mapper.Map<IEnumerable<PromptDTO>>(filteredPrompts);
@@ -39,7 +42,7 @@ namespace Client.Repositories
 
         public async Task<PromptDTO?> GetPromptByIdAsync(int id)
         {
-            var jsonData = await File.ReadAllTextAsync(_jsonFilePath);
+            var jsonData = await _httpClient.GetStringAsync(_jsonFilePath);
             var prompts = JsonSerializer.Deserialize<List<Prompt>>(jsonData) ?? new List<Prompt>();
             var prompt = prompts.FirstOrDefault(p => p.Id == id);
             return prompt == null ? null : _mapper.Map<PromptDTO>(prompt);
@@ -47,7 +50,7 @@ namespace Client.Repositories
 
         public async Task<PromptDTO?> AddPromptAsync(PromptDTO promptDTO)
         {
-            var jsonData = await File.ReadAllTextAsync(_jsonFilePath);
+            var jsonData = await _httpClient.GetStringAsync(_jsonFilePath);
             var prompts = JsonSerializer.Deserialize<List<Prompt>>(jsonData) ?? new List<Prompt>();
             var prompt = _mapper.Map<Prompt>(promptDTO);
             prompt.Id = prompts.Any() ? prompts.Max(p => p.Id) + 1 : 1;
@@ -58,7 +61,7 @@ namespace Client.Repositories
 
         public async Task<PromptDTO?> UpdatePromptAsync(PromptDTO promptDTO)
         {
-            var jsonData = await File.ReadAllTextAsync(_jsonFilePath);
+            var jsonData = await _httpClient.GetStringAsync(_jsonFilePath);
             var prompts = JsonSerializer.Deserialize<List<Prompt>>(jsonData) ?? new List<Prompt>();
             var prompt = prompts.FirstOrDefault(p => p.Id == promptDTO.Id);
             if (prompt == null) return null;
@@ -70,7 +73,7 @@ namespace Client.Repositories
 
         public async Task DeletePromptAsync(int id)
         {
-            var jsonData = await File.ReadAllTextAsync(_jsonFilePath);
+            var jsonData = await _httpClient.GetStringAsync(_jsonFilePath);
             var prompts = JsonSerializer.Deserialize<List<Prompt>>(jsonData) ?? new List<Prompt>();
             var prompt = prompts.FirstOrDefault(p => p.Id == id);
             if (prompt == null) return;
@@ -79,10 +82,8 @@ namespace Client.Repositories
             await File.WriteAllTextAsync(_jsonFilePath, JsonSerializer.Serialize(prompts));
         }
     }
-public class JsonRepositoryOptions
-{
-    public required string JsonFilePath { get; set; }
-}
-
-
+    public class JsonRepositoryOptions
+    {
+        public required string JsonFilePath { get; set; }
+    }
 }
