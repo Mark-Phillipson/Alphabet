@@ -9,7 +9,7 @@
             <span class="text-info m-1">@PromptDTO.Id</span>
         }
         <div class="row">
-            <div class="col-12">
+            <div class="col-10">
                 <div class="form-group">
                     <label for="PromptText">Prompt Text: </label> <i class="text-danger fa">*</i>
                     <InputTextArea rows="20" id="PromptText" class="form-control" @bind-Value="@PromptDTO.PromptText"
@@ -29,12 +29,11 @@
                     <ValidationMessage For="@(() => PromptDTO.IsDefault)" />
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-2">
                 @* Move here for the next display column if required *@
             </div>
         </div>
-        <hr>
-        <div class="" style="float:right">
+        <div class="" >
             <button type='button' accesskey="c" class="btn btn-lg btn-outline-primary"
                 @onclick="@CloseAsync"><u>C</u>ancel</button>
             <button @TaskRunning accesskey="s" type="submit" class="btn btn-lg btn-primary"><u>S</u>ave Record</button>

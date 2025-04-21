@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using Blazored.Toast;
+using Blazored.Modal;
 using Client;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -15,6 +16,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddBlazoredToast();
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddBlazoredModal();
 var config = builder.Configuration;
 
 // Correct the JSON file path to use a relative URL for HTTP access
