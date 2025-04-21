@@ -1,25 +1,31 @@
 ﻿@page "/chat"
 <PageTitle>AI Chat Component Example</PageTitle>
 @using Client.Pages
-<h4 class="text-light mb-4"><i class="fa-solid fa-comments"></i> AI Chat (Using @model)</h4>
-@if (!string.IsNullOrWhiteSpace(Message))
-{
-    <div class="alert alert-info" role="alert">@Message</div>
-}
-<div>
-    <input @onblur='LoadData' type='password' placeholder='Enter Your Open AI API key Here..' @bind=OpenAIAPIKEY
-        class='form-control' />
+<div class='row'>
+    <div class='col-5'>
+        <h4 class="text-dark mb-4"><i class="fa-solid fa-comments"></i> AI Chat (Using @model)</h4>
+    </div>
+    <div class='col-7'>
+        @if (!string.IsNullOrWhiteSpace(Message))
+        {
+            <div class="alert alert-info" role="alert">@Message</div>
+        }
+        <div>
+            <input @onblur='LoadData' type='password' placeholder='Enter Your Open AI API key Here..' @bind=OpenAIAPIKEY
+                class='form-control form-control-sm' />
+        </div>
+    </div>
 </div>
 <div class='row'>
-    <div class='col-md-5 bg-dark text-light p-4 rounded'>
+    <div class='col-md-5 bg-light text-dark p-4 rounded'>
         @if (prompts != null)
         {
-            <label for='selectedPromptId' class="form-label text-light"><i class="fa-solid fa-list"></i> Select a Predefined
+            <label for='selectedPromptId' class="form-label text-dark m-1"><i class="fa-solid fa-list"></i> Select a Predefined
                 Prompt</label>
-            <a target="_blank" class='btn btn-link btn-sm text-light' href="/prompts"><i
+            <a target="_blank" class='btn btn-link btn-sm text-dark' href="/prompts"><i
                     class="fa-solid fa-pen-to-square"></i> Manage</a>
             <InputSelect id='selectedPromptId' ValueExpression="@(() => selectedPromptId)" Value="@selectedPromptId"
-                ValueChanged="@((int value) => OnValueChangedMethodName(value))" class="form-select bg-success text-light">
+                ValueChanged="@((int value) => OnValueChangedMethodName(value))" class="m-1 form-select bg-success text-light">
                 @foreach (var item in prompts)
                 {
                     if (item.Id == selectedPrompt?.Id)
@@ -35,10 +41,10 @@
         }
         <label class='sr-only m-1' for='inputElement'>Chat Message</label>
         <textarea rows='4' id='inputElement' @ref="inputElement"
-            class='form-control m-1 text-light border border-success' style="background-color: #2a2a2a !important;"
-            @bind-value='@prompt' @bind-value:event='oninput' placeholder='Enter some text to chat (Enter to send)'
-            @onkeydown="EnteredChat"></textarea>
-        <div class="d-flex flex-wrap gap-2 mt-2">
+            class='form-control m-1 text-dark border border-success text-light'
+            style="background-color: #white !important;" @bind-value='@prompt' @bind-value:event='oninput'
+            placeholder='Enter some text to chat (Enter to send)' @onkeydown="EnteredChat"></textarea>
+        <div class="d-flex flex-wrap gap-2 m-1">
             <button accesskey='c' class="btn btn-outline-success btn-sm" type="button"
                 @onclick="@(() => ProcessChat())"><i class="fa-solid fa-paper-plane"></i> <u>C</u>hat</button>
             <button accesskey='l' class="btn btn-outline-success btn-sm" type="button" @onclick="@(() => Clear())"><i
@@ -76,7 +82,7 @@
         <br />
         @if (selectedPrompt != null)
         {
-            <label class='m-1 text-light'><i class="fa-solid fa-info-circle"></i> Current Prompt:</label>
+            <label class='m-1 text-dark'><i class="fa-solid fa-info-circle"></i> Current Prompt:</label>
         }
         @foreach (var item in chatHistory)
         {
@@ -121,7 +127,7 @@
             }
         }
 
-        <hr class="text-light">
+        <hr class="text-dark">
         <button class="btn btn-outline-success m-1" @onclick="@(() => ToggleHistory())"><i
                 class="fa-solid fa-history"></i> Response History <span
                 class='badge bg-success'>@responseHistory?.Count</span></button>
@@ -145,7 +151,7 @@
             }
         }
     </div>
-    <div class='col-md-7 bg-dark text-light p-4 rounded'>
+    <div class='col-md-7 bg-light text-dark p-0 rounded'>
         @if (responseHistory?.Count > 0)
         {
             @if (string.IsNullOrWhiteSpace(TextBlock) && string.IsNullOrWhiteSpace(AIComments))
@@ -154,18 +160,16 @@
             }
             else
             {
-                <textarea @ref='responseElement' class='form-control m-2 text-light border-0'
-                    style="background-color: #2a2a2a !important;" rows="30">@TextBlock </textarea>
+                <textarea rows='25' @ref='responseElement' class='form-control m-1 text-dark border-0'>@TextBlock </textarea>
                 @if (!string.IsNullOrWhiteSpace(AIComments))
                 {
-                    <div class="alert alert-success m-2" role="alert">@AIComments</div>
+                    <div class="alert alert-info m-2 p-2" role="alert">@AIComments</div>
                 }
             }
         }
     </div>
 </div>
-<a class='btn-link m-2 text-success' href="/smart-components"><i class="fa-solid fa-arrow-left"></i> Back to List of
-    Smart Components</a>
+
 
 <style>
     .chat-bubble {
@@ -191,9 +195,9 @@
     }
 
     .system-bubble .bubble-content {
-        background-color: rgba(220, 53, 69, 0.25);
+        background-color: rgba(220, 53, 69, 0.15); /* Lighter red */
         border: 1px solid #dc3545;
-        color: #ff8a94;
+        color: #dc3545; /* Vivid red text */
     }
 
     .system-bubble .bubble-content:hover {
@@ -201,9 +205,9 @@
     }
 
     .user-bubble .bubble-content {
-        background-color: rgba(40, 167, 69, 0.25);
+        background-color: rgba(40, 167, 69, 0.15); /* Lighter green */
         border: 1px solid #28a745;
-        color: #6ee088;
+        color: #28a745; /* Vivid green text */
         cursor: default;
     }
 
@@ -222,5 +226,13 @@
 
     .expanded {
         max-width: 95%;
+    }
+
+    #selectedPromptId {
+        width: 100%;
+    }
+
+    #inputElement {
+        width: 100%;
     }
 </style>

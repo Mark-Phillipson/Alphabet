@@ -55,7 +55,14 @@ namespace Client.Repositories
             var prompt = _mapper.Map<Prompt>(promptDTO);
             prompt.Id = prompts.Any() ? prompts.Max(p => p.Id) + 1 : 1;
             prompts.Add(prompt);
-            await File.WriteAllTextAsync(_jsonFilePath, JsonSerializer.Serialize(prompts));
+            try
+            {
+                await File.WriteAllTextAsync(_jsonFilePath, JsonSerializer.Serialize(prompts));
+            }
+            catch (System.Exception exception)
+            {
+                System.Console.WriteLine(exception.Message);
+            }
             return _mapper.Map<PromptDTO>(prompt);
         }
 
