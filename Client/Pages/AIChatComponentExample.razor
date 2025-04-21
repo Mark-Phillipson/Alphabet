@@ -20,10 +20,10 @@
     <div class='col-md-5 bg-light text-dark p-4 rounded'>
         @if (prompts != null)
         {
-            <label for='selectedPromptId' class="form-label text-dark m-1"><i class="fa-solid fa-list"></i> Select a Predefined
-                Prompt</label>
-            <a target="_blank" class='btn btn-link btn-sm text-dark' href="/prompts"><i
-                    class="fa-solid fa-pen-to-square"></i> Manage</a>
+            @* <label for='selectedPromptId' class="form-label text-dark m-1"><i class="fa-solid fa-list"></i> Select a Predefined
+                Prompt</label> *@
+            @* <a target="_blank" class='btn btn-link btn-sm text-dark' href="/prompts"><i
+                    class="fa-solid fa-pen-to-square"></i> Manage</a> *@
             <InputSelect id='selectedPromptId' ValueExpression="@(() => selectedPromptId)" Value="@selectedPromptId"
                 ValueChanged="@((int value) => OnValueChangedMethodName(value))" class="m-1 form-select bg-success text-light">
                 @foreach (var item in prompts)
@@ -43,7 +43,7 @@
         <textarea rows='4' id='inputElement' @ref="inputElement"
             class='form-control m-1 text-dark border border-success text-light'
             style="background-color: #white !important;" @bind-value='@prompt' @bind-value:event='oninput'
-            placeholder='Enter some text to chat (Enter to send)' @onkeydown="EnteredChat"></textarea>
+            placeholder='Give the AI instructions on creating some plain text (Enter to send)' @onkeydown="EnteredChat"></textarea>
         <div class="d-flex flex-wrap gap-2 m-1">
             <button accesskey='c' class="btn btn-outline-success btn-sm" type="button"
                 @onclick="@(() => ProcessChat())"><i class="fa-solid fa-paper-plane"></i> <u>C</u>hat</button>

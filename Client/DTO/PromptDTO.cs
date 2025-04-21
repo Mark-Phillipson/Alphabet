@@ -11,8 +11,9 @@ namespace Client.DTO
         [StringLength(3000)]
         public string PromptText { get; set; } = "";
         [StringLength(2000)]
+        [Required]
         public string? Description { get; set; }
         [Required]
-        public bool IsDefault { get; set; }
+        public bool IsDefault { get; set; }= false;
     }
 }

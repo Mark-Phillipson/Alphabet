@@ -16,7 +16,7 @@
 @if (FilteredPromptDTO == null && _loadFailed == true)
 {
     <h2 class="text-danger">The data failed to load please try again in a little while..</h2>
-    <button class="btn btn-danger" type="button" @onclick="@( () => LoadData() )"> Reload</button>
+    <button class="btn btn-danger" type="button" @onclick="@(() => LoadData())"> Reload</button>
     <h6 class="text-danger">@ExceptionMessage</h6>
 }
 else if (FilteredPromptDTO == null)
@@ -26,7 +26,7 @@ else if (FilteredPromptDTO == null)
 else if (FilteredPromptDTO.Count == 0)
 {
     <p>No Prompt match the criteria</p>
-    <button @onclick="AddNewPrompt" class="btn btn-outline-success">Add Record <i class="fas fa-plus"></i></button>
+    @* <button @onclick="AddNewPrompt" class="btn btn-outline-success">Add Record <i class="fas fa-plus"></i></button> *@
 }
 else
 {
@@ -53,11 +53,11 @@ else
                     </button>
                     Is Default
                 </th>
-                <th>
+                @* <th>
                     <button accesskey="+" @onclick="AddNewPrompt" class="btn btn-outline-success btn-sm">
                         <i class="fas fa-plus"></i>
                     </button>
-                </th>
+                </th> *@
             </tr>
         </thead>
         <tbody>
@@ -65,21 +65,22 @@ else
             {
                 <tr>
                     <td>
-                        <button class="btn btn-sm btn-link" @onclick="@(() => EditPrompt(prompt.Id))">
+                        @* <button class="btn btn-sm btn-link" @onclick="@(() => EditPrompt(prompt.Id))">
                             @prompt.Id
-                        </button>
+                        </button> *@
+                        @prompt.Id
                     </td>
                     <td>@prompt.PromptText</td>
                     <td>@prompt.Description</td>
                     <td>@prompt.IsDefault</td>
-                    <td class="btn-group-vertical">
+                    @* <td class="btn-group-vertical">
                         <button class="btn btn-sm btn-outline-warning" @onclick="@(() => EditPrompt(prompt.Id))">
                             <i class="fas fa-edit"></i>
                         </button>
                         <button class="btn btn-sm btn-outline-danger" @onclick="@(() => DeletePrompt(prompt.Id))">
                             <i class="fas fa-trash"></i>
                         </button>
-                    </td>
+                    </td> *@
                 </tr>
             }
         </tbody>

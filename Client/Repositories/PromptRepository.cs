@@ -62,6 +62,7 @@ namespace Client.Repositories
             catch (System.Exception exception)
             {
                 System.Console.WriteLine(exception.Message);
+                throw new Exception($"Error writing to file: {exception.Message}");
             }
             return _mapper.Map<PromptDTO>(prompt);
         }

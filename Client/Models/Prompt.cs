@@ -14,6 +14,7 @@ namespace Client.Models
         [StringLength(3000)]
         public required string PromptText { get; set; }
         [StringLength(2000)]
+        [Required]
         public string? Description { get; set; }
         public bool IsDefault { get; set; } = false;
     }

@@ -88,7 +88,7 @@ public partial class PromptAddEdit : ComponentBase
                 ToastService?.ShowError("Prompt failed to add, please investigate Error Adding New Prompt");
                 return;
             }
-            ToastService?.ShowSuccess("Prompt added successfully");
+            ToastService?.ShowSuccess("Testing:Prompt added successfully");
         }
         else
         {
