@@ -9,12 +9,13 @@ using Microsoft.JSInterop;
 using Microsoft.SemanticKernel;
 using Microsoft.AspNetCore.Components.Web;
 using System.Text.Json;
+using System.Net.Http;
 namespace Client.Pages;
 
 public partial class AIChatComponentExample : ComponentBase
 {
-   [Inject] public required IPromptDataService PromptDataService { get; set; }
    [Inject] public required IJSRuntime JSRuntime { get; set; }
+   [Inject] public required HttpClient HttpClient { get; set; }
    ChatHistory chatHistory = new();
    private bool isPluginImported = false;
    private HashSet<object> expandedMessages = new HashSet<object>();
@@ -30,8 +31,8 @@ public partial class AIChatComponentExample : ComponentBase
    // string? history = "";
    int historyCount = 0;
    bool addedPredefinedPrompt = false;
-    ChatMessageContent response = new ChatMessageContent();
-    Kernel kernel = new Kernel();
+   ChatMessageContent response = new ChatMessageContent();
+   Kernel kernel = new Kernel();
    private string model = "o3-mini";
    IChatCompletionService? chatService;
    private ElementReference inputElement;
@@ -48,7 +49,7 @@ public partial class AIChatComponentExample : ComponentBase
          }
          catch (Exception exception)
          {
-                Console.WriteLine(exception.Message);
+            Console.WriteLine(exception.Message);
          }
       }
    }
@@ -65,12 +66,14 @@ public partial class AIChatComponentExample : ComponentBase
          Message = "";
          chatService = new OpenAIChatCompletionService("o3-mini", OpenAIAPIKEY);
       }
-      prompts = await PromptDataService.GetAllPromptsAsync();
+      var jsonData = await HttpClient.GetStringAsync("/Prompts.json");
+      var prompts = JsonSerializer.Deserialize<List<PromptDTO>>(jsonData) ?? new List<PromptDTO>();
+
       var prompt = prompts.Where(x => x.IsDefault).FirstOrDefault();
       if (prompt != null)
       {
          selectedPromptId = prompt.Id;
-         selectedPrompt = await PromptDataService.GetPromptById(prompt.Id);
+         selectedPrompt = prompt;
       }
    }
 
@@ -86,12 +89,14 @@ public partial class AIChatComponentExample : ComponentBase
          return;
 
       }
-      else if (chatService==null)
+      else if (chatService == null)
       {
          Message = "";
          chatService = new OpenAIChatCompletionService("o3-mini", OpenAIAPIKEY);
       }
-      prompts = await PromptDataService.GetAllPromptsAsync();
+      var jsonData = await HttpClient.GetStringAsync("/Prompts.json");
+      prompts = JsonSerializer.Deserialize<List<PromptDTO>>(jsonData) ?? new List<PromptDTO>();
+
       processing = true;
       StateHasChanged();
 
@@ -138,7 +143,7 @@ public partial class AIChatComponentExample : ComponentBase
       {
          Message = "Error: " + exception.Message;
 
-            Console.WriteLine(exception.Message);
+         Console.WriteLine(exception.Message);
       }
       responseHistory.AddAssistantMessage(response.Content ?? "");
       revertTo = responseHistory.Count - 1;
@@ -155,7 +160,7 @@ public partial class AIChatComponentExample : ComponentBase
       }
       catch (Exception exception)
       {
-            Console.WriteLine(exception.Message);
+         Console.WriteLine(exception.Message);
       }
    }
 
@@ -183,7 +188,10 @@ public partial class AIChatComponentExample : ComponentBase
    {
       await Forget();
       selectedPromptId = id;
-      selectedPrompt = await PromptDataService.GetPromptById(id);
+      var jsonData = await HttpClient.GetStringAsync("/Prompts.json");
+      var prompts = JsonSerializer.Deserialize<List<PromptDTO>>(jsonData) ?? new List<PromptDTO>();
+
+      selectedPrompt = prompts.Where(x => x.Id == id).FirstOrDefault();
       StateHasChanged();
       await inputElement.FocusAsync();
    }
@@ -221,7 +229,7 @@ public partial class AIChatComponentExample : ComponentBase
          }
          catch (Exception exception)
          {
-                Console.WriteLine(exception.Message);
+            Console.WriteLine(exception.Message);
          }
       }
    }
