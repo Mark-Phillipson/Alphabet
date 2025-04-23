@@ -1,5 +1,13 @@
 {
 	"navigationFallback": {
 		"rewrite": "/index.html"
-	}
+	},
+	"routes": [
+		{
+			"route": "/*",
+			"headers": {
+				"cache-control": "no-cache, no-store, must-revalidate"
+			}
+		}
+	]
 }
