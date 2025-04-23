@@ -28,7 +28,14 @@ builder.Services.Configure<JsonRepositoryOptions>(options =>
 builder.Services.AddScoped<IPromptDataService, PromptDataService>();
 
 // Add AutoMapper to the service collection
-builder.Services.AddAutoMapper(typeof(Program));
+try
+{
+    builder.Services.AddAutoMapper(typeof(Program));
+}
+catch (System.Exception exception)
+{
+    Console.WriteLine($"An error occurred while adding AutoMapper: {exception.Message}");
+}
 
 // Fix the PromptRepository registration
 builder.Services.AddScoped<IPromptRepository>(provider =>

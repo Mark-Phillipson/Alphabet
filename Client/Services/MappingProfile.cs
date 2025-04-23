@@ -2,11 +2,14 @@ using AutoMapper;
 using Client.DTO;
 using Client.Models;
 
-public class MappingProfile : Profile
+namespace Client.Services
 {
-    public MappingProfile()
+    public class MappingProfile : Profile
     {
-        CreateMap<Prompt, PromptDTO>();
-        CreateMap<PromptDTO, Prompt>();
+        public MappingProfile()
+        {
+            CreateMap<Prompt, PromptDTO>();
+            CreateMap<PromptDTO, Prompt>();
+        }
     }
 }
