@@ -1,0 +1,2 @@
+dotnet list package --outdated
+dotnet add package <package-name> --version x.y.z
