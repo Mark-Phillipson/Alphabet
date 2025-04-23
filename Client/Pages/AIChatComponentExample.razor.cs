@@ -67,13 +67,14 @@ public partial class AIChatComponentExample : ComponentBase
          chatService = new OpenAIChatCompletionService("o3-mini", OpenAIAPIKEY);
       }
       var jsonData = await HttpClient.GetStringAsync("/Prompts.json");
-      var prompts = JsonSerializer.Deserialize<List<PromptDTO>>(jsonData) ?? new List<PromptDTO>();
+      prompts = JsonSerializer.Deserialize<List<PromptDTO>>(jsonData) ?? new List<PromptDTO>();
 
       var prompt = prompts.Where(x => x.IsDefault).FirstOrDefault();
       if (prompt != null)
       {
          selectedPromptId = prompt.Id;
          selectedPrompt = prompt;
+         StateHasChanged();
       }
    }
 
@@ -189,7 +190,7 @@ public partial class AIChatComponentExample : ComponentBase
       await Forget();
       selectedPromptId = id;
       var jsonData = await HttpClient.GetStringAsync("/Prompts.json");
-      var prompts = JsonSerializer.Deserialize<List<PromptDTO>>(jsonData) ?? new List<PromptDTO>();
+      prompts = JsonSerializer.Deserialize<List<PromptDTO>>(jsonData) ?? new List<PromptDTO>();
 
       selectedPrompt = prompts.Where(x => x.Id == id).FirstOrDefault();
       StateHasChanged();
