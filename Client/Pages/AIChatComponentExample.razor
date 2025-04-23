@@ -49,8 +49,8 @@
                 @onclick="@(() => ProcessChat())"><i class="fa-solid fa-paper-plane"></i> <u>C</u>hat</button>
             <button accesskey='l' class="btn btn-outline-success btn-sm" type="button" @onclick="@(() => Clear())"><i
                     class="fa-solid fa-eraser"></i> C<u>l</u>ear</button>
-            <button accesskey='t' class="btn btn-outline-danger btn-sm" type="button" @onclick="@(() => Forget())"><i
-                    class="fa-solid fa-trash"></i> Forge<u>t</u></button>
+            @* <button accesskey='t' class="btn btn-outline-danger btn-sm" type="button" @onclick="@(() => Forget())"><i
+                    class="fa-solid fa-trash"></i> Forge<u>t</u></button> *@
             @if (selectedPrompt?.Description == "Do Dictation" && !string.IsNullOrWhiteSpace(TextBlock))
             {
                 <button accesskey='y' id="CopyButton" type="button" class="btn btn-outline-success btn-sm"
